@@ -6,11 +6,13 @@ export default function Navbar() {
     <nav className="fixed top-0 w-full bg-white/90 backdrop-blur-sm z-50 shadow-sm">
       <div className="container mx-auto px-4 py-3 flex justify-between items-center">
         <Link href="/" className="flex items-center space-x-2">
-          <div className="relative w-[200px] h-[60px]">
+          <div className="relative w-[180px] h-[50px]">
             <Image
               src="/logo.png"
               alt="Pro-Fresh Logo"
-              fill
+              width={180}
+              height={50}
+              style={{ width: 'auto', height: '100%' }}
               className="object-contain"
               priority
             />

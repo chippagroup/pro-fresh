@@ -1,6 +1,37 @@
+"use client";
+
 import Image from 'next/image';
+import { useState } from 'react';
 
 export default function Contact() {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    message: ''
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    
+    // Create email content
+    const subject = `Contact from ${formData.name} via Pro-Fresh Website`;
+    const body = `Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`;
+    
+    // Create mailto URL with encoded parameters
+    const mailtoUrl = `mailto:renei.maenetja@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    
+    // Open default email client
+    window.location.href = mailtoUrl;
+  };
+
   return (
     <section id="contact" className="py-20 bg-green-50 relative overflow-hidden">
       {/* Decorative Background */}
@@ -73,14 +104,18 @@ export default function Contact() {
 
           <div className="bg-white p-8 rounded-xl shadow-lg">
             <h3 className="text-xl font-semibold mb-6">Send us a Message</h3>
-            <form className="space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-6">
               <div>
                 <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">Name</label>
                 <input
                   type="text"
                   id="name"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
                   className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
                   placeholder="Your name"
+                  required
                 />
               </div>
               <div>
@@ -88,17 +123,25 @@ export default function Contact() {
                 <input
                   type="email"
                   id="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
                   className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
                   placeholder="your@email.com"
+                  required
                 />
               </div>
               <div>
                 <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">Message</label>
                 <textarea
                   id="message"
+                  name="message"
+                  value={formData.message}
+                  onChange={handleChange}
                   rows="4"
                   className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
                   placeholder="How can we help you?"
+                  required
                 ></textarea>
               </div>
               <button
